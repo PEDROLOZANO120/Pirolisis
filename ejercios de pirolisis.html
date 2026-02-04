@@ -401,6 +401,29 @@
       font-family: var(--sans);
       font-size: 13px;
     }
+    .match-grid{
+      width:100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+    .match-grid th, .match-grid td{
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 8px;
+      text-align:left;
+    }
+    .order-list{
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+    .order-list li{
+      margin: 6px 0;
+    }
+    .multi-select{
+      margin-top: 8px;
+      display: grid;
+      gap: 6px;
+    }
     .table th{color: var(--muted); font-weight:800}
     .toast{
       position: fixed;
@@ -664,6 +687,75 @@ function activityBlock({ title, prompt, words, grid, fillId }){
   `;
 }
 
+function renderCrossword(grid){
+  const rows = grid.map(row => {
+    const cells = row.split("").map(ch => {
+      if(ch === "#"){
+        return `<td style="background: rgba(255,255,255,.08)"></td>`;
+      }
+      return `<td>${ch}</td>`;
+    }).join("");
+    return `<tr>${cells}</tr>`;
+  });
+  return `<table class="wordsearch" aria-label="Crucigrama">${rows.join("")}</table>`;
+}
+
+function matchingBlock({ title, left, right, note }){
+  const rows = left.map((item, idx) => `
+    <tr>
+      <td>${item}</td>
+      <td>
+        <select class="input" style="max-width:220px">
+          <option value="">Selecciona...</option>
+          ${right.map(opt => `<option>${opt}</option>`).join("")}
+        </select>
+      </td>
+    </tr>
+  `);
+  return `
+    <div class="activity">
+      <strong>${title}</strong>
+      <div class="small muted" style="margin-top:6px">${note}</div>
+      <table class="match-grid">
+        <thead><tr><th>Concepto</th><th>Correspondencia</th></tr></thead>
+        <tbody>${rows.join("")}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function orderingBlock({ title, items, note }){
+  const rows = items.map(item => `
+    <li>
+      <input class="input" placeholder="Escribe el orden correcto..." />
+      <div class="small muted">${item}</div>
+    </li>
+  `).join("");
+  return `
+    <div class="activity">
+      <strong>${title}</strong>
+      <div class="small muted" style="margin-top:6px">${note}</div>
+      <ol class="order-list">${rows}</ol>
+    </div>
+  `;
+}
+
+function multiSelectBlock({ title, prompt, options }){
+  const rows = options.map(opt => `
+    <label class="opt" style="cursor: default;">
+      <input type="checkbox" />
+      <span>${opt}</span>
+    </label>
+  `).join("");
+  return `
+    <div class="activity">
+      <strong>${title}</strong>
+      <div class="small muted" style="margin-top:6px">${prompt}</div>
+      <div class="multi-select">${rows}</div>
+    </div>
+  `;
+}
+
 /* =========================================================
    DATOS DEL CURSO (Fases + Contenido + Preguntas)
    ========================================================= */
@@ -743,10 +835,44 @@ const PHASES = [
         fillId: "fill_p1"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: concepto ↔ impacto",
+        note: "Relaciona cada concepto con su impacto ambiental principal.",
+        left: ["PVC", "Microplásticos", "Aditivos", "Quema abierta"],
+        right: ["Gases ácidos", "Persistencia y dispersión", "Subproductos complejos", "Emisiones tóxicas"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: jerarquía de manejo",
+        note: "Ordena de mayor a menor prioridad ambiental (1 = más prioritario).",
+        items: ["Reducción en origen", "Reutilización", "Reciclaje", "Valorización energética"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca todos los factores que condicionan el desempeño ambiental de la pirólisis.",
+        options: ["Composición del residuo", "Presencia de halógenos", "Control de emisiones", "Color del contenedor"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (conceptos clave)</strong>
+        <div class="small muted" style="margin-top:6px">Completa el crucigrama con términos de la fase (P1).</div>
+        ${renderCrossword([
+          "PVC###",
+          "MICRO#",
+          "PET###",
+          "PE####",
+          "PP####",
+          "RESID#"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://www.unep.org/plastic-pollution" target="_blank" rel="noopener">PNUMA — contaminación por plásticos</a>
         <a href="https://www.basel.int/" target="_blank" rel="noopener">Convenio de Basilea</a>
+        <a href="https://www.youtube.com/results?search_query=pir%C3%B3lisis+pl%C3%A1sticos" target="_blank" rel="noopener">Videos introductorios (pirólisis de plásticos)</a>
+        <a href="https://www.youtube.com/results?search_query=pyrolysis+simulation" target="_blank" rel="noopener">Simulaciones de pirólisis (videos)</a>
       </div>
     `,
     questions: [
@@ -861,10 +987,43 @@ const PHASES = [
         fillId: "fill_p2"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: acción ↔ beneficio ambiental",
+        note: "Relaciona cada acción de pretratamiento con su beneficio.",
+        left: ["Separación de PVC", "Lavado", "Secado", "Trituración"],
+        right: ["Menos gases ácidos", "Menos olores", "Estabilidad térmica", "Uniformidad de alimentación"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: pasos de preparación",
+        note: "Ordena el flujo típico de preparación del residuo.",
+        items: ["Recepción y segregación", "Trituración", "Lavado", "Secado"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca las prácticas que reducen riesgos ambientales durante preparación.",
+        options: ["Control de polvo", "Gestión de aguas de lavado", "Ventilación adecuada", "Descargas sin tratamiento"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (pretratamiento)</strong>
+        <div class="small muted" style="margin-top:6px">Completa con términos de la fase (P2).</div>
+        ${renderCrossword([
+          "LAVADO",
+          "SECADO",
+          "PVC###",
+          "TRITUR",
+          "HUMEDA",
+          "POLVO#"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://www.iso.org/standard/60857.html" target="_blank" rel="noopener">ISO 14001 (gestión ambiental)</a>
         <a href="https://www.unep.org/resources/report" target="_blank" rel="noopener">Reportes PNUMA (recursos)</a>
+        <a href="https://www.youtube.com/results?search_query=pretratamiento+residuos+pl%C3%A1sticos" target="_blank" rel="noopener">Videos de pretratamiento</a>
       </div>
     `,
     questions: [
@@ -972,10 +1131,43 @@ const PHASES = [
         fillId: "fill_p3"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: variable ↔ efecto",
+        note: "Relaciona cada variable de operación con su efecto ambiental.",
+        left: ["Temperatura", "Tiempo de residencia", "Sellado", "Atmósfera inerte"],
+        right: ["Distribución de productos", "Subproductos", "Menos fugas", "Evita combustión"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: secuencia del proceso",
+        note: "Ordena los pasos generales del proceso de pirólisis.",
+        items: ["Alimentación", "Calentamiento", "Descomposición", "Condensación de vapores"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca los elementos críticos para el control ambiental en la pirólisis.",
+        options: ["Sellado del sistema", "Control térmico", "Captura de vapores", "Ignorar la composición del residuo"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (pirólisis)</strong>
+        <div class="small muted" style="margin-top:6px">Completa con conceptos de la fase (P3).</div>
+        ${renderCrossword([
+          "INERTE",
+          "NITRO#",
+          "TEMP##",
+          "GASES#",
+          "SELLAD",
+          "REACT#"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://www.iea.org/reports/the-role-of-critical-minerals-in-clean-energy-transitions" target="_blank" rel="noopener">IEA (referencias de transición y circularidad)</a>
         <a href="https://www.sciencedirect.com/" target="_blank" rel="noopener">ScienceDirect (artículos académicos)</a>
+        <a href="https://www.youtube.com/results?search_query=pir%C3%B3lisis+reactor+explicaci%C3%B3n" target="_blank" rel="noopener">Videos sobre el proceso de pirólisis</a>
       </div>
     `,
     questions: [
@@ -1089,10 +1281,43 @@ const PHASES = [
         fillId: "fill_p4"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: producto ↔ gestión",
+        note: "Relaciona cada producto con su gestión ambiental prioritaria.",
+        left: ["Aceite", "Gas", "Sólidos", "Filtros usados"],
+        right: ["Almacenamiento seguro", "Combustión controlada", "Caracterización y disposición", "Gestión como residuo secundario"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: ruta de valorización",
+        note: "Ordena la ruta típica para valorizar el aceite con control ambiental.",
+        items: ["Caracterización", "Almacenamiento", "Uso energético/material", "Monitoreo de emisiones"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca las prácticas que reducen riesgos al usar productos de pirólisis.",
+        options: ["Trazabilidad", "Control de derrames", "Uso sin control", "Caracterización previa"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (productos)</strong>
+        <div class="small muted" style="margin-top:6px">Completa con términos de la fase (P4).</div>
+        ${renderCrossword([
+          "ACEITE",
+          "GAS###",
+          "SOLIDO",
+          "TRAZA#",
+          "RIESGO",
+          "FILTRO"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://ellenmacarthurfoundation.org/topics/plastics/overview" target="_blank" rel="noopener">Ellen MacArthur Foundation — plásticos y circularidad</a>
         <a href="https://www.oecd.org/environment/plastics/" target="_blank" rel="noopener">OECD — políticas sobre plásticos</a>
+        <a href="https://www.youtube.com/results?search_query=productos+de+pir%C3%B3lisis+pl%C3%A1sticos" target="_blank" rel="noopener">Videos sobre productos de pirólisis</a>
       </div>
     `,
     questions: [
@@ -1207,10 +1432,43 @@ const PHASES = [
         fillId: "fill_p5"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: control ↔ emisión",
+        note: "Relaciona cada sistema de control con la emisión que reduce.",
+        left: ["Lavador", "Filtro", "Sellado", "Monitoreo"],
+        right: ["Gases ácidos", "Partículas", "Fugas de COV", "Verificación continua"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: respuesta ante fuga",
+        note: "Ordena las acciones ante una fuga detectada.",
+        items: ["Detener alimentación", "Asegurar sellos", "Verificar condensadores", "Registrar incidente"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca las prácticas que fortalecen el control ambiental.",
+        options: ["Mantenimiento preventivo", "Registro de emisiones", "Desactivar sensores", "Gestión de residuos secundarios"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (control ambiental)</strong>
+        <div class="small muted" style="margin-top:6px">Completa con términos de la fase (P5).</div>
+        ${renderCrossword([
+          "FILTRO",
+          "LAVADO",
+          "COV###",
+          "SELLAD",
+          "NOX###",
+          "EMISIO"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://www.who.int/health-topics/air-pollution" target="_blank" rel="noopener">OMS — contaminación del aire</a>
         <a href="https://www.osha.gov/" target="_blank" rel="noopener">OSHA — seguridad (referencial)</a>
+        <a href="https://www.youtube.com/results?search_query=control+de+emisiones+pir%C3%B3lisis" target="_blank" rel="noopener">Videos sobre control de emisiones</a>
       </div>
     `,
     questions: [
@@ -1325,10 +1583,43 @@ const PHASES = [
         fillId: "fill_p6"
       })}
 
+      ${matchingBlock({
+        title: "Emparejamiento: indicador ↔ descripción",
+        note: "Relaciona cada indicador con su descripción.",
+        left: ["Huella de carbono", "Energía neta", "Residuos secundarios", "Cumplimiento"],
+        right: ["Balance de energía", "Emisiones totales", "Lodos/filtros", "Normativa ambiental"]
+      })}
+
+      ${orderingBlock({
+        title: "Ordenamiento: evaluación de sostenibilidad",
+        note: "Ordena los pasos de una evaluación básica de sostenibilidad.",
+        items: ["Definir límites del sistema", "Recolectar datos", "Comparar alternativas", "Comunicar resultados"]
+      })}
+
+      ${multiSelectBlock({
+        title: "Selección múltiple (respuestas correctas)",
+        prompt: "Marca los elementos que forman parte de una evaluación responsable.",
+        options: ["Transparencia de datos", "Considerar trade-offs", "Ignorar residuos secundarios", "Trazabilidad"]
+      })}
+
+      <div class="activity">
+        <strong>Crucigrama (sostenibilidad)</strong>
+        <div class="small muted" style="margin-top:6px">Completa con términos de la fase (P6).</div>
+        ${renderCrossword([
+          "ACV###",
+          "HUELLA",
+          "CIRCUL",
+          "IMPACT",
+          "TRAZA#",
+          "REPOR#"
+        ])}
+      </div>
+
       <div class="footer-links">
         <span class="muted">Enlaces opcionales:</span>
         <a href="https://www.iso.org/standard/37456.html" target="_blank" rel="noopener">ISO 14040 (ACV)</a>
         <a href="https://www.iso.org/standard/38498.html" target="_blank" rel="noopener">ISO 14044 (ACV)</a>
+        <a href="https://www.youtube.com/results?search_query=analisis+de+ciclo+de+vida+pir%C3%B3lisis" target="_blank" rel="noopener">Videos sobre ACV y pirólisis</a>
       </div>
     `,
     questions: [
