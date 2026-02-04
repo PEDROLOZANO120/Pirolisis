@@ -1,0 +1,2196 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pirólisis de Residuos Plásticos — Recurso Ambiental (Offline)</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#101a2e;
+      --panel2:#0f1a33;
+      --text:#eaf0ff;
+      --muted:#b9c6ff;
+      --soft:#233257;
+      --accent:#66e3c4;
+      --accent2:#7aa6ff;
+      --warn:#ffd37a;
+      --ok:#7CFFB2;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --radius2:20px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 20% 10%, #14264f 0%, rgba(20,38,79,0) 60%),
+                  radial-gradient(900px 600px at 90% 20%, #1b3b4f 0%, rgba(27,59,79,0) 55%),
+                  radial-gradient(800px 600px at 50% 100%, #1f2742 0%, rgba(31,39,66,0) 60%),
+                  var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.5;
+    }
+    a{color:var(--accent2); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .topbar{
+      position:sticky; top:0; z-index:10;
+      background: rgba(11,18,32,.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner{
+      max-width:1200px; margin:0 auto;
+      padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(102,227,196,.95), rgba(122,166,255,.95));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      color:#0b1220; font-weight:900;
+      letter-spacing:-.5px;
+    }
+    .brand h1{
+      margin:0;
+      font-size:16px;
+      line-height:1.2;
+    }
+    .brand .sub{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:2px;
+    }
+    .top-actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(16,26,46,.55);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+      display:flex; align-items:center; gap:8px;
+    }
+    .pill strong{color:var(--text)}
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(16,26,46,.75);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:650;
+      font-size:13px;
+      transition: transform .05s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    .btn:hover{background: rgba(16,26,46,.95); border-color: rgba(255,255,255,.22)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(102,227,196,.5);
+      background: rgba(102,227,196,.12);
+    }
+    .btn.primary:hover{
+      background: rgba(102,227,196,.18);
+    }
+    .btn.danger{
+      border-color: rgba(255,122,122,.55);
+      background: rgba(255,122,122,.10);
+    }
+    .layout{
+      max-width:1200px;
+      margin: 18px auto 24px;
+      padding: 0 16px;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr}
+    }
+    .card{
+      background: rgba(16,26,46,.78);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .card-h{
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background: rgba(16,26,46,.65);
+    }
+    .card .card-h h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing: .2px;
+    }
+    .card .card-b{padding: 14px 16px}
+    .small{font-size:12px; color:var(--muted)}
+    .muted{color:var(--muted)}
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    @media (max-width: 980px){
+      .grid2{grid-template-columns: 1fr}
+    }
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .phase-item{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(15,26,51,.6);
+      border-radius: 14px;
+      padding: 12px 12px;
+      display:flex;
+      gap:10px;
+      cursor:pointer;
+      transition: border-color .2s ease, background .2s ease, transform .05s ease;
+    }
+    .phase-item:hover{
+      background: rgba(15,26,51,.8);
+      border-color: rgba(255,255,255,.18);
+    }
+    .phase-item:active{transform: translateY(1px)}
+    .phase-dot{
+      width:28px; height:28px; border-radius: 10px;
+      display:grid; place-items:center;
+      flex:0 0 auto;
+      font-weight:900; font-size:12px;
+      background: rgba(122,166,255,.14);
+      border:1px solid rgba(122,166,255,.35);
+      color: var(--text);
+    }
+    .phase-item.locked{
+      opacity:.55;
+      cursor:not-allowed;
+      filter: grayscale(.1);
+    }
+    .phase-item.locked:hover{
+      background: rgba(15,26,51,.6);
+      border-color: rgba(255,255,255,.10);
+    }
+    .phase-title{
+      font-weight:800;
+      font-size:13px;
+      margin:0;
+    }
+    .phase-sub{
+      margin:4px 0 0;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .badge{
+      font-size:11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .badge.ok{
+      border-color: rgba(124,255,178,.45);
+      background: rgba(124,255,178,.10);
+      color: #dfffea;
+    }
+    .badge.warn{
+      border-color: rgba(255,211,122,.55);
+      background: rgba(255,211,122,.10);
+      color: #fff1d3;
+    }
+    .content h2{
+      margin:0 0 6px;
+      font-size: 18px;
+      letter-spacing: .2px;
+    }
+    .content .lead{
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .callout{
+      border:1px solid rgba(102,227,196,.25);
+      background: rgba(102,227,196,.08);
+      border-radius: 14px;
+      padding: 12px 12px;
+      margin: 12px 0;
+    }
+    .callout strong{color: #dffff5}
+    .section{
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .kpi{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .kpi .pill{padding:7px 10px}
+    .figure{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.08);
+      border-radius: 16px;
+      padding: 10px;
+      overflow:auto;
+    }
+    .qcard{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(15,26,51,.55);
+      border-radius: 16px;
+      padding: 12px 12px;
+      margin: 10px 0;
+    }
+    .qhead{
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
+    }
+    .qhead h3{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .qmeta{color:var(--muted); font-size:12px}
+    .options{margin-top: 10px; display:grid; gap:8px}
+    .opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.07);
+      cursor:pointer;
+    }
+    .opt:hover{border-color: rgba(255,255,255,.18)}
+    .opt input{margin-top:3px}
+    .qactions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 10px;
+      align-items:center;
+    }
+    .feedback{
+      margin-top: 10px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+      color: var(--text);
+    }
+    .feedback.ok{
+      border-color: rgba(124,255,178,.35);
+      background: rgba(124,255,178,.08);
+    }
+    .feedback.tip{
+      border-color: rgba(255,211,122,.35);
+      background: rgba(255,211,122,.08);
+    }
+    .hr{height:1px; background: rgba(255,255,255,.08); margin: 12px 0}
+    .inline{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+    }
+    .input::placeholder{color: rgba(185,198,255,.65)}
+    .mono{
+      font-family: var(--mono);
+      font-size: 12px;
+      word-break: break-all;
+      white-space: pre-wrap;
+    }
+    .modal{
+      position: fixed;
+      inset: 0;
+      display:none;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+    }
+    .modal.show{display:flex}
+    .modal-card{
+      width: min(720px, 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(16,26,46,.96);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modal-card .m-h{
+      padding: 16px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+    }
+    .modal-card .m-h h2{margin:0; font-size:16px}
+    .modal-card .m-b{padding: 14px 16px}
+    .note{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .footer-links{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .table th, .table td{
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      padding: 10px 8px;
+      text-align:left;
+      vertical-align: top;
+    }
+    .table th{color: var(--muted); font-weight:800}
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index: 60;
+      display:none;
+      background: rgba(16,26,46,.96);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text);
+      max-width: min(900px, 92vw);
+    }
+    .toast.show{display:block}
+  </style>
+</head>
+<body>
+
+<!--
+  RECURSO OFFLINE — PIRÓLISIS DE RESIDUOS PLÁSTICOS (ING. AMBIENTAL)
+  - Edita claves aquí: TEACHER_KEYS (y TEACHER_ADMIN_KEY si deseas).
+  - Todo el contenido principal funciona sin internet.
+  - Enlaces externos al final de cada fase son opcionales.
+-->
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">π</div>
+      <div>
+        <h1>Pirólisis de Residuos Plásticos — Enfoque Ambiental</h1>
+        <span class="sub">Valorización, impactos y sostenibilidad (sin diseño avanzado de reactores)</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="pill"><span>Estudiante:</span> <strong id="studentNamePill">—</strong></div>
+      <div class="pill"><span>Progreso:</span> <strong id="progressPill">0%</strong></div>
+      <div class="pill"><span>Nota:</span> <strong id="gradePill">—/10</strong></div>
+      <button class="btn" id="btnOpenStudent">Cambiar estudiante</button>
+      <button class="btn" id="btnTeacherMode">Modo docente</button>
+      <button class="btn danger" id="btnReset">Reiniciar</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- Navegación -->
+  <div class="card">
+    <div class="card-h">
+      <h2>Fases del proceso</h2>
+      <span class="badge" id="navHint">bloqueado por clave</span>
+    </div>
+    <div class="card-b">
+      <div class="nav" id="phaseNav"></div>
+      <div class="hr"></div>
+      <div class="small">
+        <strong>Regla de avance:</strong> al finalizar una fase (respondiendo sus preguntas),
+        se solicita una <strong>clave del docente</strong> para desbloquear la siguiente.
+        Las claves se editan en la variable <span class="mono">TEACHER_KEYS</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="card content">
+    <div class="card-h">
+      <h2 id="phaseHeader">Bienvenida</h2>
+      <span class="badge warn" id="phaseStatus">Sin iniciar</span>
+    </div>
+    <div class="card-b" id="phaseContent">
+      <!-- Se inyecta por JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Estudiante -->
+<div class="modal" id="studentModal">
+  <div class="modal-card">
+    <div class="m-h">
+      <h2>Inicio del recurso</h2>
+      <button class="btn" id="btnCloseStudentModal">Cerrar</button>
+    </div>
+    <div class="m-b">
+      <div class="grid2">
+        <div>
+          <p class="lead" style="margin-top:0">
+            Este recurso es para <strong>estudiantes universitarios de Ingeniería Ambiental</strong>.
+            Te guiará por 6 fases del proceso de pirólisis de plásticos, con enfoque ambiental y de sostenibilidad.
+          </p>
+
+          <div class="callout">
+            <strong>Importante:</strong> no se realizan cálculos de diseño de reactores.
+            Se analiza el proceso como <em>tecnología ambiental de valorización</em>, incluyendo impactos, control y sostenibilidad.
+          </div>
+
+          <label class="small"><strong>Nombre y apellido (para tu código de resultados)</strong></label>
+          <input class="input" id="studentNameInput" placeholder="Ej.: José Lozano" />
+
+          <div class="inline" style="margin-top:10px">
+            <button class="btn primary" id="btnStart">Iniciar / Cargar progreso</button>
+            <button class="btn" id="btnNew">Iniciar como nuevo</button>
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            El progreso se guarda en este dispositivo (almacenamiento local del navegador).
+            Si cambias de computador o navegador, inicia desde cero.
+          </div>
+        </div>
+
+        <div>
+          <div class="figure">
+            <!-- Mini-diagrama general offline (SVG) -->
+            <svg viewBox="0 0 680 360" width="100%" height="auto" role="img" aria-label="Diagrama general de pirólisis como tecnología ambiental">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+                  <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+                </linearGradient>
+              </defs>
+
+              <rect x="20" y="25" width="180" height="70" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+              <text x="110" y="58" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="15" font-weight="700">Residuos plásticos</text>
+              <text x="110" y="78" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">caracterizar y separar</text>
+
+              <rect x="250" y="25" width="190" height="70" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+              <text x="345" y="58" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="15" font-weight="700">Preparación</text>
+              <text x="345" y="78" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">limpieza, trituración</text>
+
+              <rect x="470" y="25" width="190" height="70" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+              <text x="565" y="58" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="15" font-weight="700">Pirólisis</text>
+              <text x="565" y="78" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">sin oxígeno</text>
+
+              <path d="M200 60 H245" stroke="url(#g1)" stroke-width="4" />
+              <path d="M440 60 H465" stroke="url(#g1)" stroke-width="4" />
+
+              <rect x="110" y="160" width="210" height="75" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+              <text x="215" y="192" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="14" font-weight="700">Productos</text>
+              <text x="215" y="214" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">aceite • gas • sólidos</text>
+
+              <rect x="360" y="160" width="300" height="75" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+              <text x="510" y="192" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="14" font-weight="700">Control ambiental</text>
+              <text x="510" y="214" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">emisiones • seguridad • residuos</text>
+
+              <path d="M565 95 V130 C565 142 555 150 542 150 H225 C212 150 200 142 200 130 V120" stroke="url(#g1)" stroke-width="4" fill="none"/>
+              <path d="M215 235 V265 H510 V235" stroke="url(#g1)" stroke-width="4" fill="none"/>
+
+              <rect x="20" y="270" width="640" height="70" rx="16" fill="rgba(102,227,196,.08)" stroke="rgba(102,227,196,.25)"/>
+              <text x="340" y="300" text-anchor="middle" fill="#dffff5" font-family="system-ui" font-size="14" font-weight="800">Evaluación ambiental y sostenibilidad</text>
+              <text x="340" y="322" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">comparación con vertido e incineración • economía circular • huella</text>
+            </svg>
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            Consejo: lee cada fase y responde con criterio ambiental: impactos, prevención, control y sostenibilidad.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Docente -->
+<div class="modal" id="teacherModal">
+  <div class="modal-card">
+    <div class="m-h">
+      <h2>Modo docente — Decodificar resultados</h2>
+      <button class="btn" id="btnCloseTeacher">Cerrar</button>
+    </div>
+    <div class="m-b">
+      <div class="note">
+        Pega aquí el <strong>código de resultados</strong> generado al finalizar.
+        El sistema mostrará <strong>nombre</strong>, <strong>nota</strong> y un resumen por fases.
+      </div>
+
+      <div class="section">
+        <label class="small"><strong>Clave docente (opcional para restringir acceso)</strong></label>
+        <input class="input" id="teacherAdminKeyInput" placeholder="Ingresa la clave docente de acceso (si se configuró)" />
+        <div class="small muted" style="margin-top:6px">
+          Si no deseas restringir este modo, deja <span class="mono">TEACHER_ADMIN_KEY</span> vacío.
+        </div>
+      </div>
+
+      <div class="section">
+        <label class="small"><strong>Código de resultados</strong></label>
+        <textarea class="input mono" id="resultCodeInput" rows="4" placeholder="Ej.: PYRO1|..."></textarea>
+        <div class="inline" style="margin-top:10px">
+          <button class="btn primary" id="btnDecode">Decodificar</button>
+          <button class="btn" id="btnClearDecode">Limpiar</button>
+        </div>
+      </div>
+
+      <div class="section" id="decodedBox" style="display:none">
+        <div class="callout">
+          <strong>Resultado decodificado</strong>
+          <div class="small muted" id="decodedStatus" style="margin-top:6px"></div>
+        </div>
+
+        <table class="table" id="decodedTable"></table>
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Sugerencia:</span>
+        <span class="muted">pide al estudiante que envíe el código tal como aparece (sin espacios extra).</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   CLAVES EDITABLES (DOCENTE)
+   ========================================================= */
+
+// Cada clave desbloquea la siguiente fase (tras finalizar la fase actual).
+// Ejemplo: al terminar Fase 1, se pide TEACHER_KEYS[1] para abrir Fase 2.
+const TEACHER_KEYS = {
+  1: "P1-UTEQ-VERDE",
+  2: "P2-UTEQ-LIMPIO",
+  3: "P3-UTEQ-INERTE",
+  4: "P4-UTEQ-PRODUCTOS",
+  5: "P5-UTEQ-CONTROL"
+  // Fase 6 es final (no necesita clave para otra fase)
+};
+
+// Si deseas restringir el “Modo docente”, define una clave aquí.
+// Si lo dejas vacío "", el modo docente estará accesible sin clave.
+const TEACHER_ADMIN_KEY = "";
+
+// “Sal” simple para validar el código (no es seguridad criptográfica; es validación práctica offline).
+// Puedes cambiarlo si deseas que los códigos no sean intercambiables entre versiones.
+const TEACHER_SECRET = "CAMBIA-ESTE-SECRETO-2026";
+
+/* =========================================================
+   DATOS DEL CURSO (Fases + Contenido + Preguntas)
+   ========================================================= */
+
+const PHASES = [
+  {
+    id: 1,
+    short: "Generación y caracterización",
+    title: "Fase 1 — Generación y Caracterización Ambiental del Residuo Plástico",
+    subtitle: "Origen del residuo • tipos de polímeros • problemática • potencial de valorización",
+    figure: svgPhase1(),
+    reading: `
+      <p><strong>¿Por qué esta fase es clave desde Ingeniería Ambiental?</strong> Porque antes de pensar en cualquier tecnología,
+      se debe entender <em>qué residuo</em> se genera, <em>por qué</em> se genera y <em>qué riesgos ambientales</em> conlleva
+      si se maneja mal (vertido, quema abierta, dispersión y microplásticos).</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) Origen del residuo y problemática ambiental</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Fuentes típicas:</strong> envases y embalajes, comercio, industria, agricultura (films), y residuos urbanos.</li>
+          <li><strong>Problemas frecuentes:</strong> dispersión en el ambiente, persistencia, impacto en fauna, y formación de microplásticos.</li>
+          <li><strong>Si hay quema abierta:</strong> se agravan emisiones de contaminantes y riesgos para la salud.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Tipos de plásticos y señales ambientales relevantes</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Polímeros comunes:</strong> PE (HDPE/LDPE), PP, PET, PS.</li>
+          <li><strong>Atención especial:</strong> PVC y plásticos con halógenos (potencial de gases ácidos y mayores necesidades de control).</li>
+          <li><strong>Aditivos:</strong> plastificantes, retardantes de llama, pigmentos; pueden influir en subproductos y requerir manejo específico.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">3) Potencial de valorización y enfoque de sostenibilidad</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>La pirólisis puede actuar como <strong>valorización/reciclaje químico</strong> cuando se orienta a recuperar fracciones útiles (aceites/gases) y reducir impactos.</li>
+          <li>Su aporte a sostenibilidad depende de: <strong>calidad de alimentación</strong>, <strong>control de emisiones</strong>, <strong>uso real de productos</strong> y <strong>comparación con alternativas</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> la caracterización no es “solo técnica”: es una práctica de <em>prevención</em>.
+        Identificar contaminantes y polímeros problemáticos evita impactos y mejora el desempeño ambiental del proceso.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://www.unep.org/plastic-pollution" target="_blank" rel="noopener">PNUMA — contaminación por plásticos</a>
+        <a href="https://www.basel.int/" target="_blank" rel="noopener">Convenio de Basilea</a>
+      </div>
+    `,
+    questions: [
+      q("P1Q1","¿Cuál conjunto de polímeros es especialmente común en envases y empaques postconsumo?",
+        ["PET, PE (HDPE/LDPE) y PP","PVC, PTFE y resinas epoxi","Poliamidas técnicas y PEEK","Solo PET y nylon"],
+        0,
+        "Muy bien: PET, PE y PP dominan muchos flujos de envases postconsumo.",
+        "Pista: piensa en botellas, fundas/films y envases rígidos cotidianos."
+      ),
+      q("P1Q2","Desde una perspectiva ambiental, ¿por qué es tan importante caracterizar el residuo antes de tratarlo?",
+        ["Para estimar el color del producto final","Para detectar polímeros y contaminantes que condicionan subproductos y emisiones","Para definir el diseño mecánico del reactor","Solo para cumplir un requisito administrativo sin impacto real"],
+        1,
+        "Exacto: la caracterización permite anticipar riesgos (p. ej., halógenos, humedad, metales, aditivos) y planificar control ambiental.",
+        "Pista: en control ambiental, lo que no se identifica a tiempo suele convertirse en un problema aguas abajo."
+      ),
+      q("P1Q3","¿Cuál impacto ambiental es típico cuando hay mala gestión del plástico (sobre todo en sistemas con baja recolección)?",
+        ["Biodegradación rápida y segura","Formación de microplásticos y dispersión persistente","Neutralización natural en 48 horas","Transformación automática a compost"],
+        1,
+        "Bien: la persistencia y fragmentación favorece microplásticos y dispersión prolongada.",
+        "Pista: el plástico persiste, se fragmenta y puede entrar a cadenas tróficas."
+      ),
+      q("P1Q4","¿Qué factor puede influir fuertemente en los subproductos y en la necesidad de control ambiental durante la pirólisis?",
+        ["El tipo de polímero y sus aditivos/contaminantes","La hora del día en que se recibe el residuo","El tamaño de la ciudad","La marca del contenedor de almacenamiento"],
+        0,
+        "Correcto: tipo de polímero, aditivos y contaminantes determinan perfiles de vapores y subproductos a controlar.",
+        "Pista: piensa en cloro (PVC), retardantes de llama, pigmentos y suciedad."
+      ),
+      q("P1Q5","En economía circular, la pirólisis se interpreta mejor (ambientalmente) como:",
+        ["Una forma de vertido que solo cambia el lugar del residuo","Una opción de valorización/reciclaje químico si recupera productos útiles con control ambiental","Una técnica equivalente a la quema abierta","Un proceso que elimina la necesidad de reducir y reutilizar"],
+        1,
+        "Así es: puede apoyar circularidad si reemplaza recursos vírgenes y controla impactos; no sustituye prevención y reducción.",
+        "Pista: circularidad implica recuperar valor y evitar impactos, no solo ‘desaparecer’ el residuo."
+      )
+    ]
+  },
+
+  {
+    id: 2,
+    short: "Preparación y condiciones",
+    title: "Fase 2 — Preparación del Residuo y Condiciones Ambientales del Proceso",
+    subtitle: "Separación • trituración • reducción de contaminantes • seguridad ambiental",
+    figure: svgPhase2(),
+    reading: `
+      <p>La preparación del residuo es donde se ganan (o se pierden) muchos beneficios ambientales.
+      Una alimentación más limpia y homogénea suele significar <strong>menos fugas</strong>, <strong>menos residuos secundarios</strong>
+      y <strong>mejor control de emisiones</strong>.</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) Separación y control de materiales problemáticos</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Retirar no plásticos:</strong> metales, vidrio, papel, orgánicos (evita cenizas, lodos, y variaciones del proceso).</li>
+          <li><strong>Atención a PVC/halógenos:</strong> incrementan potencial de gases ácidos y la exigencia de sistemas de captura.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Reducción de tamaño y limpieza</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Trituración:</strong> mejora la uniformidad y reduce puntos fríos/calientes; ayuda a operar con estabilidad.</li>
+          <li><strong>Lavado y secado (cuando aplica):</strong> reduce suciedad, orgánicos y humedad; disminuye vapores indeseados y olores.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">3) Seguridad ambiental y ocupacional</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Control de polvo y fragmentos:</strong> evita exposición y riesgo de incendios.</li>
+          <li><strong>Gestión de aguas de lavado:</strong> pueden contener microplásticos y detergentes; requieren tratamiento.</li>
+          <li><strong>Buenas prácticas:</strong> ventilación, manejo de derrames, segregación y almacenamiento seguro.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> preparar bien el residuo es “prevención en origen” dentro del proceso: reduce impactos antes de que ocurran.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://www.iso.org/standard/60857.html" target="_blank" rel="noopener">ISO 14001 (gestión ambiental)</a>
+        <a href="https://www.unep.org/resources/report" target="_blank" rel="noopener">Reportes PNUMA (recursos)</a>
+      </div>
+    `,
+    questions: [
+      q("P2Q1","¿Qué acción de pretratamiento ayuda más a reducir el riesgo de gases ácidos y exigencias de control?",
+        ["Mezclar PVC con otros polímeros para ‘diluirlo’","Separar y minimizar PVC/halógenos en la alimentación","Aumentar la humedad para enfriar","Agregar más residuos orgánicos para ‘equilibrar’"],
+        1,
+        "Bien: separar PVC/halógenos reduce riesgos de gases ácidos y simplifica el control ambiental.",
+        "Pista: el cloro y otros halógenos suelen demandar captura específica."
+      ),
+      q("P2Q2","¿Por qué el lavado/secado puede ser relevante ambientalmente en ciertos flujos postconsumo?",
+        ["Porque aumenta el color del plástico","Porque reduce suciedad/orgánicos/humedad que generan olores y vapores no deseados","Porque reemplaza el control de emisiones","Porque vuelve biodegradable al plástico"],
+        1,
+        "Correcto: reducir orgánicos y humedad puede disminuir olores, vapores indeseados y residuos secundarios.",
+        "Pista: humedad y suciedad cambian el perfil de vapores y aumentan corrientes a tratar."
+      ),
+      q("P2Q3","La trituración, vista desde sostenibilidad y control, aporta principalmente:",
+        ["Uniformidad del material y operación más estable, favoreciendo menor variabilidad de emisiones","Solo estética del residuo","Mayor dispersión al ambiente","Elimina la necesidad de separar contaminantes"],
+        0,
+        "Así es: una alimentación más uniforme ayuda a estabilidad y facilita control ambiental.",
+        "Pista: estabilidad operativa suele significar menos eventos de fuga/olor y mejor captura."
+      ),
+      q("P2Q4","Una medida de seguridad ambiental y ocupacional coherente durante preparación es:",
+        ["Trabajar sin ventilación para evitar pérdida de calor","Controlar polvo, ventilación adecuada y manejo seguro de materiales","Quemar los restos de polvo en campo abierto","Descartar el agua de lavado al alcantarillado sin tratamiento"],
+        1,
+        "Bien: control de polvo/ventilación y manejo seguro reducen exposición y riesgos ambientales.",
+        "Pista: piensa en prevención de incendios, exposición y gestión de efluentes."
+      ),
+      q("P2Q5","¿Qué enfoque es más responsable con los contaminantes no plásticos separados (metales, vidrio, orgánicos)?",
+        ["Mezclarlos nuevamente para mantener el volumen","Gestionarlos por rutas adecuadas: reciclaje, tratamiento o disposición según su naturaleza","Enterrarlos dentro del área de trabajo","Arrojarlos a un cuerpo de agua por ser ‘inertes’"],
+        1,
+        "Correcto: la segregación permite enviar cada fracción a la ruta más adecuada (reciclaje/gestión).",
+        "Pista: separación sin gestión posterior no completa el enfoque ambiental."
+      )
+    ]
+  },
+
+  {
+    id: 3,
+    short: "Pirólisis como tratamiento",
+    title: "Fase 3 — Pirólisis como Tecnología de Tratamiento Ambiental",
+    subtitle: "Descomposición térmica • atmósfera inerte • rangos generales de temperatura",
+    figure: svgPhase3(),
+    reading: `
+      <p><strong>Pirólisis</strong> es la descomposición térmica de materiales orgánicos en <strong>ausencia (o limitación) de oxígeno</strong>.
+      En plásticos, busca convertir polímeros en fracciones más pequeñas: vapores que luego se condensan (aceites) y gases,
+      además de una fracción sólida.</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) ¿Qué ocurre durante la pirólisis?</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Los enlaces del polímero se rompen por temperatura: se generan <strong>vapores</strong> y <strong>gases</strong>.</li>
+          <li>Si el sistema está sellado y controlado, se minimizan fugas de COV/olores.</li>
+          <li>La “calidad” ambiental del proceso depende del control de alimentación y del control de gases.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Atmósfera inerte y rangos generales</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Se usa un medio inerte (p. ej., nitrógeno) para evitar combustión/oxidación.</li>
+          <li>En plásticos, se reportan rangos típicos en torno a <strong>350–550 °C</strong> (dependiendo del polímero y del enfoque operativo).</li>
+          <li>Este recurso <strong>no</strong> entra en dimensionamiento de reactor: el énfasis es ambiental.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> ambientalmente, la diferencia crucial frente a combustión es la <em>ausencia de oxígeno</em> y la <em>captura/control</em> de vapores.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://www.iea.org/reports/the-role-of-critical-minerals-in-clean-energy-transitions" target="_blank" rel="noopener">IEA (referencias de transición y circularidad)</a>
+        <a href="https://www.sciencedirect.com/" target="_blank" rel="noopener">ScienceDirect (artículos académicos)</a>
+      </div>
+    `,
+    questions: [
+      q("P3Q1","¿Cuál definición se ajusta mejor a pirólisis (en este contexto)?",
+        ["Combustión completa con exceso de oxígeno","Descomposición térmica en ausencia o limitación de oxígeno","Compostaje acelerado por calor","Disolución del plástico en agua"],
+        1,
+        "Correcto: pirólisis implica descomposición térmica sin oxígeno disponible para quemar.",
+        "Pista: diferencia clave: combustión requiere oxígeno; pirólisis opera sin él."
+      ),
+      q("P3Q2","¿Qué función ambiental cumple la atmósfera inerte (p. ej., nitrógeno) en el proceso?",
+        ["Aumentar el humo para visualizar el proceso","Evitar combustión/oxidación y ayudar a mantener condiciones controladas","Hacer el plástico biodegradable","Reemplazar el sistema de control de emisiones"],
+        1,
+        "Bien: la atmósfera inerte reduce riesgo de combustión y ayuda al control del proceso.",
+        "Pista: sin oxígeno, el proceso tiende a descomponer en lugar de quemar."
+      ),
+      q("P3Q3","Un rango general citado con frecuencia para pirólisis de plásticos (sin entrar a diseño) es:",
+        ["50–120 °C","350–550 °C","900–1200 °C","10–20 °C"],
+        1,
+        "Así es: se reportan rangos generales alrededor de 350–550 °C, según polímero y operación.",
+        "Pista: la descomposición de polímeros necesita temperaturas elevadas, pero no tan altas como algunas combustiones industriales."
+      ),
+      q("P3Q4","Sin hacer cálculos de reactor, ¿qué variables suelen influir en la distribución de productos (aceite/gas/sólido)?",
+        ["Temperatura y tiempo de residencia, además de tipo de plástico y presencia de catalizadores","Solo la humedad del aire exterior","El día de la semana","Únicamente el color del plástico"],
+        0,
+        "Correcto: temperatura, residencia, tipo de polímero y catalizadores (si se usan) influyen en la distribución.",
+        "Pista: piensa en ‘condiciones de operación’ + ‘naturaleza del material’."
+      ),
+      q("P3Q5","¿Por qué NO se debe llamar ‘incineración’ a la pirólisis bien controlada?",
+        ["Porque nunca se usa energía","Porque el objetivo principal es la recuperación de productos y se trabaja sin oxígeno, no con llama abierta","Porque siempre produce compost","Porque solo aplica a vidrio"],
+        1,
+        "Bien: la pirólisis busca transformar sin oxidación; incineración es combustión con oxígeno y gases de combustión.",
+        "Pista: incineración = combustión; pirólisis = descomposición sin oxígeno."
+      )
+    ]
+  },
+
+  {
+    id: 4,
+    short: "Productos e impactos",
+    title: "Fase 4 — Productos de la Pirólisis y su Impacto Ambiental",
+    subtitle: "Bio-oil • gas • sólidos • usos • riesgos • emisiones evitadas",
+    figure: svgPhase4(),
+    reading: `
+      <p>La pirólisis suele generar tres fracciones principales: <strong>aceite (condensado)</strong>, <strong>gas</strong> y <strong>sólidos</strong>.
+      Su beneficio ambiental depende de <em>cómo se usen</em> y de <em>cómo se gestionen los riesgos</em>.</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) Aceite (condensado) — oportunidades y cuidado</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Puede usarse como <strong>combustible</strong> o <strong>materia prima</strong> (según calidad y limpieza).</li>
+          <li>Requiere control de contaminantes (p. ej., compuestos clorados si hubo PVC).</li>
+          <li>Su manejo debe evitar derrames y emisiones evaporativas.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Gas — energía del proceso y control</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Puede alimentar el propio proceso (autoconsumo energético), pero debe <strong>limpiarse/controlarse</strong> según su composición.</li>
+          <li>El control de combustión del gas (si se quema para energía) define emisiones: CO, NOx, COV, etc.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">3) Sólidos (char/cera/residuos) — gestión responsable</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Pueden contener <strong>cargas minerales</strong>, metales de pigmentos o aditivos. Se recomienda caracterizar antes de valorizar.</li>
+          <li>Si no cumplen criterios, se gestionan como residuo con trazabilidad.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> “valorización” implica que los productos <em>reemplazan</em> algo (energía o materia prima) y se controlan sus impactos.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://ellenmacarthurfoundation.org/topics/plastics/overview" target="_blank" rel="noopener">Ellen MacArthur Foundation — plásticos y circularidad</a>
+        <a href="https://www.oecd.org/environment/plastics/" target="_blank" rel="noopener">OECD — políticas sobre plásticos</a>
+      </div>
+    `,
+    questions: [
+      q("P4Q1","El aceite de pirólisis, desde un enfoque ambiental, se aprovecha mejor cuando:",
+        ["Se descarga en el suelo para ‘reintegrarse’","Se usa como energía o materia prima sustituyendo recursos vírgenes, con manejo seguro y control de contaminantes","Se quema al aire libre para reducir volumen","Se mezcla con agua para hacerlo inocuo"],
+        1,
+        "Correcto: la clave es sustitución real + manejo seguro + control de contaminantes.",
+        "Pista: beneficio ambiental ocurre cuando se evita extracción/producción de recursos vírgenes y se minimizan riesgos."
+      ),
+      q("P4Q2","El gas de pirólisis puede ser útil, pero ambientalmente requiere atención porque:",
+        ["Siempre es aire limpio","Puede contener hidrocarburos ligeros y trazas; su uso energético requiere combustión controlada y, si aplica, limpieza","No tiene relación con emisiones","Solo sirve para hacer compost"],
+        1,
+        "Bien: su aprovechamiento debe considerar control de combustión y, si corresponde, limpieza de compuestos problemáticos.",
+        "Pista: gas útil ≠ gas sin control. Importa la forma de uso y tratamiento."
+      ),
+      q("P4Q3","La fracción sólida (char/cera/residuo) se gestiona responsablemente cuando:",
+        ["Se usa sin revisar composición","Se caracteriza (posibles metales/aditivos) y se valoriza solo si cumple criterios; si no, se dispone con trazabilidad","Se arroja al río por ser ‘sólida’","Se mezcla con alimentos para ‘absorber’ contaminantes"],
+        1,
+        "Correcto: caracterizar antes de valorizar evita transferir impactos a otra matriz ambiental.",
+        "Pista: la sostenibilidad evita ‘mover’ contaminación de un lugar a otro."
+      ),
+      q("P4Q4","Un beneficio ambiental razonable de la pirólisis bien gestionada puede ser:",
+        ["Aumentar la quema abierta","Reducir riesgo de dispersión/vertido y sustituir parte de energía/materia prima de origen fósil, si los productos se usan adecuadamente","Eliminar toda necesidad de reducir consumo","Garantizar cero emisiones sin control"],
+        1,
+        "Muy bien: reduce presión por vertido/dispersión y puede sustituir recursos, siempre con control ambiental.",
+        "Pista: piensa en sustitución y prevención de contaminación, no en ‘magia’ sin control."
+      ),
+      q("P4Q5","¿Qué afirmación es más consistente con una gestión ambiental integral de subproductos?",
+        ["Los subproductos se ignoran porque ‘ya no son residuos’","Se planifica uso/limpieza, almacenamiento seguro y rutas de gestión para corrientes secundarias (filtros, lodos, etc.)","Todo se vierte a alcantarillado","Se prohíbe medir emisiones para no encontrar problemas"],
+        1,
+        "Correcto: la gestión integral incluye productos principales y corrientes secundarias con responsabilidad.",
+        "Pista: sostenibilidad = ciclo completo, no solo el producto ‘bonito’."
+      )
+    ]
+  },
+
+  {
+    id: 5,
+    short: "Control, emisiones y seguridad",
+    title: "Fase 5 — Control Ambiental, Emisiones y Seguridad",
+    subtitle: "Emisiones gaseosas • residuos secundarios • mitigación • prevención",
+    figure: svgPhase5(),
+    reading: `
+      <p>El control ambiental en pirólisis se centra en <strong>evitar fugas</strong> (vapores/COV/olores),
+      <strong>capturar y tratar</strong> corrientes gaseosas, y <strong>manejar residuos secundarios</strong> con trazabilidad.
+      La seguridad (presión, temperatura, inflamabilidad) es parte inseparable del desempeño ambiental.</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) Emisiones potenciales</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li><strong>Fugitivas:</strong> vapores orgánicos (COV), olores, nieblas, especialmente en transferencia/condensación si no hay buen sellado.</li>
+          <li><strong>Si se aprovecha gas con combustión:</strong> CO, NOx, partículas (dependen de la calidad del gas y del sistema de combustión/control).</li>
+          <li><strong>Si hay halógenos:</strong> posible formación de gases ácidos; se requieren capturas específicas (lavadores/filtros).</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Residuos secundarios y su gestión</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Filtros, adsorbentes, lodos de lavadores, aguas de lavado o condensados no deseados.</li>
+          <li>La gestión debe basarse en caracterización, rutas autorizadas y registros.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">3) Seguridad como parte del control ambiental</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Equipos sellados, alivios de presión, detección de fugas, ventilación, y protocolos contra incendios.</li>
+          <li>Reducir eventos de seguridad también reduce eventos ambientales (liberaciones y emergencias).</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> en desempeño ambiental, “control” no es un accesorio: es la condición para que la valorización sea aceptable.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://www.who.int/health-topics/air-pollution" target="_blank" rel="noopener">OMS — contaminación del aire</a>
+        <a href="https://www.osha.gov/" target="_blank" rel="noopener">OSHA — seguridad (referencial)</a>
+      </div>
+    `,
+    questions: [
+      q("P5Q1","¿Qué razón ambiental hace relevante separar PVC/halógenos cuando sea posible?",
+        ["Porque mejora el sabor del producto","Porque puede aumentar gases ácidos y demandar captura/neutralización específica","Porque reduce la necesidad de sellado","Porque hace innecesaria la medición de emisiones"],
+        1,
+        "Bien: halógenos pueden requerir captura específica; separarlos simplifica el control y reduce riesgos.",
+        "Pista: piensa en gases ácidos y en la complejidad de tratamiento."
+      ),
+      q("P5Q2","¿Qué práctica reduce emisiones fugitivas (vapores/olores) en la línea de vapores y condensación?",
+        ["Sistema sellado, condensación adecuada y control de puntos de transferencia","Abrir el sistema para ventilar","Trabajar sin condensadores","Aumentar derrames para ‘enfriar’"],
+        0,
+        "Correcto: sellado y buena captura/condensación minimizan liberaciones al ambiente.",
+        "Pista: el control empieza evitando que el vapor ‘escape’."
+      ),
+      q("P5Q3","¿Cuál es un ejemplo realista de residuo secundario que puede generarse en control ambiental?",
+        ["Lodos/soluciones de lavadores y filtros usados","Solo aire puro","Agua potable lista para beber","Oxígeno medicinal"],
+        0,
+        "Así es: filtros, adsorbentes y lodos de lavado son corrientes secundarias que deben gestionarse.",
+        "Pista: todo sistema de captura produce una corriente a gestionar."
+      ),
+      q("P5Q4","Una estrategia coherente de monitoreo (según contexto) incluiría:",
+        ["Ignorar COV y olores porque no se ven","Vigilar COV/olores, CO/NOx si hay combustión, partículas y parámetros del sistema de captura","Medir únicamente el color del humo","Medir solo una vez al año sin registros"],
+        1,
+        "Bien: monitorear lo relevante permite prevenir problemas y demostrar desempeño ambiental.",
+        "Pista: el monitoreo se alinea con las rutas de emisión y el tipo de control usado."
+      ),
+      q("P5Q5","¿Por qué la seguridad (presión, inflamabilidad, fugas) es parte del control ambiental?",
+        ["Porque no tiene relación con el ambiente","Porque incidentes de seguridad suelen convertirse en liberaciones ambientales y emergencias","Porque reemplaza toda gestión de residuos","Porque elimina la necesidad de caracterizar el residuo"],
+        1,
+        "Correcto: prevenir incidentes reduce liberaciones y protege salud y ambiente.",
+        "Pista: un evento de fuga/incendio casi siempre tiene impacto ambiental."
+      )
+    ]
+  },
+
+  {
+    id: 6,
+    short: "Evaluación y sostenibilidad",
+    title: "Fase 6 — Evaluación Ambiental y Sostenibilidad del Proceso",
+    subtitle: "Comparación con vertido e incineración • economía circular • huella ambiental",
+    figure: svgPhase6(),
+    reading: `
+      <p>La sostenibilidad de la pirólisis no se afirma “por intuición”: se <strong>evalúa</strong>.
+      En Ingeniería Ambiental, se comparan alternativas (reducción, reutilización, reciclaje mecánico, pirólisis, incineración, vertido)
+      considerando impactos, control, y el destino real de los productos.</p>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">1) Comparación con vertido</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Vertido: riesgo de dispersión, ocupación de suelo, pérdida de material y potencial de contaminación (dependiendo del sistema).</li>
+          <li>Pirólisis: puede reducir la cantidad destinada a vertido y recuperar valor (si hay control y uso real).</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">2) Comparación con incineración</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Incineración: combustión con oxígeno; el control de gases es central. Puede recuperar energía, pero no recupera materia prima como tal.</li>
+          <li>Pirólisis: busca transformar en fracciones aprovechables; también requiere control, especialmente si hay halógenos/contaminantes.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="margin:0 0 6px; font-size:14px">3) Herramientas y economía circular</h3>
+        <ul class="muted" style="margin:0; padding-left:18px">
+          <li>Una herramienta clave es el <strong>Análisis de Ciclo de Vida (ACV/LCA)</strong> para comparar impactos (huella, emisiones, consumo de energía, etc.).</li>
+          <li>La pirólisis puede aportar a circularidad si integra: <strong>segregación</strong>, <strong>control</strong>, <strong>trazabilidad</strong> y <strong>mercados/uso responsable</strong>.</li>
+          <li>No reemplaza la jerarquía de residuos: <strong>primero reducir y reutilizar</strong> cuando sea posible.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <strong>Idea guía:</strong> sostenibilidad = desempeño ambiental + viabilidad + responsabilidad; no solo “tecnología novedosa”.
+      </div>
+
+      <div class="footer-links">
+        <span class="muted">Enlaces opcionales:</span>
+        <a href="https://www.iso.org/standard/37456.html" target="_blank" rel="noopener">ISO 14040 (ACV)</a>
+        <a href="https://www.iso.org/standard/38498.html" target="_blank" rel="noopener">ISO 14044 (ACV)</a>
+      </div>
+    `,
+    questions: [
+      q("P6Q1","Comparada con el vertido, una ventaja ambiental potencial de la pirólisis (bien gestionada) es:",
+        ["Aumentar dispersión de plásticos","Reducir destino a vertido y recuperar valor (energía/materia) con control de impactos","Eliminar toda necesidad de recolección","Garantizar cero impactos sin control"],
+        1,
+        "Bien: la ventaja potencial es desviar del vertido y recuperar valor con control ambiental.",
+        "Pista: la comparación se centra en dispersión, pérdida de recursos y control."
+      ),
+      q("P6Q2","La diferencia conceptual principal con incineración es que la pirólisis:",
+        ["Siempre produce más humo","Opera sin oxígeno para transformar en productos aprovechables, en lugar de combustionar directamente","No requiere control de emisiones","Solo aplica a residuos orgánicos biodegradables"],
+        1,
+        "Correcto: pirólisis busca transformación en productos bajo condiciones sin oxígeno, mientras incineración es combustión.",
+        "Pista: piensa en ‘transformación para recuperar’ vs ‘combustión para energía’."
+      ),
+      q("P6Q3","¿Qué herramienta es típica para evaluar impactos y comparar alternativas de tratamiento?",
+        ["ACV/LCA (Análisis de Ciclo de Vida)","Adivinación por tendencias","Solo una encuesta de gustos","Medición del color del aceite"],
+        0,
+        "Así es: ACV/LCA permite comparar impactos de manera estructurada.",
+        "Pista: se usa para huella, energía, emisiones y trade-offs."
+      ),
+      q("P6Q4","En economía circular, una contribución plausible de la pirólisis es:",
+        ["Reemplazar completamente la reducción y reutilización","Reincorporar carbono a la cadena productiva como insumo/energía bajo control y trazabilidad","Hacer que el plástico desaparezca sin residuos","Evitar cualquier necesidad de gestión de subproductos"],
+        1,
+        "Bien: circularidad es reincorporar valor con control y trazabilidad, no ‘desaparecer’ residuos.",
+        "Pista: circularidad y control siempre van juntos."
+      ),
+      q("P6Q5","La afirmación más responsable desde sostenibilidad es:",
+        ["La pirólisis es una solución única que reemplaza todo lo demás","La pirólisis puede complementar la gestión, pero debe integrarse con reducción, reutilización, reciclaje y control ambiental","No hace falta separar contaminantes","Nunca debe evaluarse con indicadores"],
+        1,
+        "Excelente: la sostenibilidad se construye con jerarquía de residuos + evaluación + control.",
+        "Pista: la mejor estrategia combina prevención, valorización y control."
+      )
+    ]
+  }
+];
+
+/* =========================================================
+   ESTADO Y ALMACENAMIENTO
+   ========================================================= */
+
+const APP_VERSION = "PYRO_ENV_1.0";
+let state = {
+  version: APP_VERSION,
+  studentName: "",
+  unlockedPhase: 1,             // fase máxima desbloqueada
+  currentPhase: 0,              // 0=bienvenida
+  answers: {},                  // {qid:{choice, attempts, awarded}}
+  phaseFinished: {},            // {phaseId:true}
+  phaseUnlocks: {},             // {phaseId:true} (desbloqueo mediante clave)
+};
+
+function storageKey(name){
+  return `pyro_env_${APP_VERSION}_${(name||"").trim().toLowerCase()}`;
+}
+function saveState(){
+  if(!state.studentName) return;
+  localStorage.setItem(storageKey(state.studentName), JSON.stringify(state));
+  updateTopPills();
+}
+function loadState(name){
+  const raw = localStorage.getItem(storageKey(name));
+  if(!raw) return null;
+  try { return JSON.parse(raw); } catch(e){ return null; }
+}
+function resetAll(){
+  if(state.studentName){
+    localStorage.removeItem(storageKey(state.studentName));
+  }
+  state = {
+    version: APP_VERSION,
+    studentName: state.studentName || "",
+    unlockedPhase: 1,
+    currentPhase: 0,
+    answers: {},
+    phaseFinished: {},
+    phaseUnlocks: {},
+  };
+  saveState();
+  renderNav();
+  goToPhase(0);
+  toast("Progreso reiniciado en este dispositivo.");
+}
+
+/* =========================================================
+   UTILIDADES (preguntas, puntaje, base64, hash offline)
+   ========================================================= */
+
+function q(id, prompt, options, correctIndex, fbOk, fbTip){
+  return { id, prompt, options, correctIndex, fbOk, fbTip };
+}
+
+function computeEarnedPoints(){
+  // 1.0 si acierta en 1 intento; 0.5 si acierta en 2 intentos; 0 si no acierta.
+  let earned = 0;
+  let max = 0;
+  for(const ph of PHASES){
+    for(const qu of ph.questions){
+      max += 1;
+      const a = state.answers[qu.id];
+      if(!a) continue;
+      if(a.awarded === 1) earned += 1;
+      else if(a.awarded === 0.5) earned += 0.5;
+    }
+  }
+  return {earned, max};
+}
+
+function computeProgress(){
+  // Progreso = preguntas respondidas / total preguntas.
+  let total = 0, done = 0;
+  for(const ph of PHASES){
+    for(const qu of ph.questions){
+      total++;
+      if(state.answers[qu.id] && Number(state.answers[qu.id].attempts||0) > 0) done++;
+    }
+  }
+  return total ? Math.round((done/total)*100) : 0;
+}
+
+function round1(x){ return Math.round(x*10)/10; }
+
+function utf8ToB64(str){
+  // Base64 robusta para tildes/ñ: encodeURIComponent -> escape -> btoa
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function b64ToUtf8(b64){
+  return decodeURIComponent(escape(atob(b64)));
+}
+function fnv1a(str){
+  // Hash simple offline (FNV-1a 32-bit) -> hex
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h + ((h<<1) + (h<<4) + (h<<7) + (h<<8) + (h<<24))) >>> 0;
+  }
+  return ("00000000" + h.toString(16)).slice(-8);
+}
+
+function buildResultPayload(){
+  const {earned, max} = computeEarnedPoints();
+  const grade10 = max ? round1((earned/max)*10) : 0;
+
+  // Resumen por fase
+  const byPhase = {};
+  for(const ph of PHASES){
+    let e = 0, m = ph.questions.length;
+    for(const qu of ph.questions){
+      const a = state.answers[qu.id];
+      if(!a) continue;
+      if(a.awarded === 1) e += 1;
+      else if(a.awarded === 0.5) e += 0.5;
+    }
+    byPhase[ph.id] = { earned: e, max: m };
+  }
+
+  return {
+    app: APP_VERSION,
+    student: state.studentName,
+    dateISO: new Date().toISOString(),
+    earnedPoints: earned,
+    maxPoints: max,
+    gradeOver10: grade10,
+    byPhase
+  };
+}
+
+function buildResultCode(){
+  const payload = buildResultPayload();
+  const json = JSON.stringify(payload);
+  const dataB64 = utf8ToB64(json);
+  const sig = fnv1a(json + "|" + TEACHER_SECRET);
+  // Prefijo con versión y separador
+  return `PYRO1|${dataB64}.${sig}`;
+}
+
+function decodeResultCode(code){
+  const trimmed = (code||"").trim();
+  if(!trimmed.startsWith("PYRO1|")) return { ok:false, msg:"Formato no reconocido (debe iniciar con PYRO1|)." };
+
+  const body = trimmed.slice(6);
+  const parts = body.split(".");
+  if(parts.length !== 2) return { ok:false, msg:"Código incompleto: falta separador o firma." };
+
+  const dataB64 = parts[0];
+  const sig = parts[1];
+
+  let json;
+  try { json = b64ToUtf8(dataB64); }
+  catch(e){ return { ok:false, msg:"No se pudo decodificar el bloque base64." }; }
+
+  const expected = fnv1a(json + "|" + TEACHER_SECRET);
+  const valid = (sig === expected);
+
+  let payload;
+  try { payload = JSON.parse(json); }
+  catch(e){ return { ok:false, msg:"El contenido decodificado no es JSON válido." }; }
+
+  return {
+    ok:true,
+    valid,
+    msg: valid ? "Firma válida (código consistente con esta versión/clave)." : "Firma no coincide (posible versión distinta o secreto diferente).",
+    payload
+  };
+}
+
+/* =========================================================
+   RENDER (navegación + contenido)
+   ========================================================= */
+
+const elNav = document.getElementById("phaseNav");
+const elPhaseHeader = document.getElementById("phaseHeader");
+const elPhaseStatus = document.getElementById("phaseStatus");
+const elPhaseContent = document.getElementById("phaseContent");
+const elStudentNamePill = document.getElementById("studentNamePill");
+const elProgressPill = document.getElementById("progressPill");
+const elGradePill = document.getElementById("gradePill");
+
+function updateTopPills(){
+  elStudentNamePill.textContent = state.studentName ? state.studentName : "—";
+  const prog = computeProgress();
+  elProgressPill.textContent = `${prog}%`;
+  const {earned, max} = computeEarnedPoints();
+  const grade10 = max ? round1((earned/max)*10) : 0;
+  elGradePill.textContent = state.studentName ? `${grade10}/10` : "—/10";
+}
+
+function phaseUnlocked(phaseId){
+  // 1 siempre desbloqueada si hay estudiante.
+  if(phaseId === 1) return !!state.studentName;
+  return !!state.phaseUnlocks[phaseId - 1]; // se desbloquea cuando se valida clave de fase anterior
+}
+
+function renderNav(){
+  elNav.innerHTML = "";
+  for(const ph of PHASES){
+    const unlocked = phaseUnlocked(ph.id);
+    const done = !!state.phaseFinished[ph.id];
+    const item = document.createElement("div");
+    item.className = "phase-item" + (unlocked ? "" : " locked");
+    item.onclick = () => {
+      if(!unlocked){
+        toast("Esta fase está bloqueada. Finaliza la fase anterior y pide la clave docente.");
+        return;
+      }
+      goToPhase(ph.id);
+    };
+
+    const dot = document.createElement("div");
+    dot.className = "phase-dot";
+    dot.textContent = ph.id;
+
+    const box = document.createElement("div");
+    box.style.flex = "1";
+
+    const t = document.createElement("p");
+    t.className = "phase-title";
+    t.textContent = `Fase ${ph.id}`;
+
+    const s = document.createElement("p");
+    s.className = "phase-sub";
+    s.textContent = ph.short;
+
+    const badge = document.createElement("span");
+    badge.className = "badge " + (done ? "ok" : "warn");
+    badge.textContent = done ? "finalizada" : (unlocked ? "disponible" : "bloqueada");
+
+    const right = document.createElement("div");
+    right.style.display = "flex";
+    right.style.flexDirection = "column";
+    right.style.alignItems = "flex-end";
+    right.style.gap = "6px";
+    right.appendChild(badge);
+
+    // mini-métrica
+    const {earned, max} = computePhasePoints(ph.id);
+    const mini = document.createElement("span");
+    mini.className = "badge";
+    mini.textContent = `${earned}/${max} pts`;
+    right.appendChild(mini);
+
+    box.appendChild(t);
+    box.appendChild(s);
+
+    item.appendChild(dot);
+    item.appendChild(box);
+    item.appendChild(right);
+    elNav.appendChild(item);
+  }
+}
+
+function computePhasePoints(phaseId){
+  const ph = PHASES.find(p => p.id === phaseId);
+  let e = 0;
+  for(const qu of ph.questions){
+    const a = state.answers[qu.id];
+    if(!a) continue;
+    if(a.awarded === 1) e += 1;
+    else if(a.awarded === 0.5) e += 0.5;
+  }
+  return { earned: e, max: ph.questions.length };
+}
+
+function goToPhase(phaseId){
+  state.currentPhase = phaseId;
+  saveState();
+  renderNav();
+
+  if(phaseId === 0){
+    renderWelcome();
+    return;
+  }
+
+  const ph = PHASES.find(p => p.id === phaseId);
+  elPhaseHeader.textContent = `Fase ${ph.id} — ${ph.short}`;
+  elPhaseStatus.className = "badge " + (state.phaseFinished[phaseId] ? "ok" : "warn");
+  elPhaseStatus.textContent = state.phaseFinished[phaseId] ? "Fase finalizada" : "En progreso";
+
+  const kpi = computePhasePoints(phaseId);
+  const html = `
+    <h2>${escapeHtml(ph.title)}</h2>
+    <p class="lead">${escapeHtml(ph.subtitle)}</p>
+
+    <div class="figure">${ph.figure}</div>
+
+    <div class="kpi">
+      <div class="pill"><span>Puntaje fase:</span> <strong>${kpi.earned}/${kpi.max}</strong></div>
+      <div class="pill"><span>Intentos:</span> <strong>${countPhaseAttempts(phaseId)}</strong></div>
+      <div class="pill"><span>Consejo:</span> <strong>Responde y luego revisa retroalimentación</strong></div>
+    </div>
+
+    <div class="section">
+      ${ph.reading}
+    </div>
+
+    <div class="section">
+      <h3 style="margin:0 0 8px; font-size:15px">Preguntas (enfoque ambiental)</h3>
+      <div class="small muted" style="margin-bottom:8px">
+        Puntaje: <strong>1 punto</strong> si aciertas en el 1er intento, <strong>0.5</strong> si ajustas y aciertas en el 2do intento.
+        La retroalimentación evita descalificar: se orienta a mejorar el razonamiento ambiental.
+      </div>
+      ${renderQuestions(ph)}
+    </div>
+
+    <div class="section">
+      ${renderPhaseFinishBox(ph)}
+    </div>
+  `;
+  elPhaseContent.innerHTML = html;
+
+  // Activar eventos de preguntas
+  wireQuestionEvents(ph);
+  wireFinishBoxEvents(ph);
+
+  updateTopPills();
+}
+
+function renderWelcome(){
+  elPhaseHeader.textContent = "Bienvenida";
+  elPhaseStatus.className = "badge warn";
+  elPhaseStatus.textContent = "Sin iniciar";
+
+  const {earned, max} = computeEarnedPoints();
+  const grade10 = max ? round1((earned/max)*10) : 0;
+
+  elPhaseContent.innerHTML = `
+    <h2>Cómo usar este recurso</h2>
+    <p class="lead">
+      Recorre 6 fases del proceso de pirólisis de residuos plásticos desde un enfoque <strong>ambiental, tecnológico y de sostenibilidad</strong>.
+      Cada fase incluye lectura, esquema e interpretación ambiental, y preguntas de evaluación.
+    </p>
+
+    <div class="callout">
+      <strong>Control de avance:</strong> al finalizar una fase, necesitarás la <strong>clave del docente</strong> para abrir la siguiente.
+      Esto facilita trabajar por “estaciones” o sesiones presenciales/virtuales.
+    </div>
+
+    <div class="grid2">
+      <div class="card" style="border-radius:16px">
+        <div class="card-b">
+          <h3 style="margin:0 0 6px; font-size:14px">Tu estado actual</h3>
+          <div class="kpi">
+            <div class="pill"><span>Estudiante:</span> <strong>${state.studentName ? escapeHtml(state.studentName) : "—"}</strong></div>
+            <div class="pill"><span>Progreso:</span> <strong>${computeProgress()}%</strong></div>
+            <div class="pill"><span>Puntaje:</span> <strong>${earned}/${max}</strong></div>
+            <div class="pill"><span>Nota:</span> <strong>${state.studentName ? `${grade10}/10` : "—/10"}</strong></div>
+          </div>
+          <div class="hr"></div>
+          <div class="small muted">
+            Sugerencia: inicia en la <strong>Fase 1</strong> y avanza en orden. Si necesitas retomar, tu progreso se guarda en este navegador.
+          </div>
+          <div class="inline" style="margin-top:10px">
+            <button class="btn primary" onclick="goToPhase(1)">Ir a Fase 1</button>
+            <button class="btn" onclick="openStudentModal()">Cambiar estudiante</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-radius:16px">
+        <div class="card-b">
+          <h3 style="margin:0 0 6px; font-size:14px">Evaluación final</h3>
+          <ul class="muted" style="margin:0; padding-left:18px">
+            <li>Puntaje acumulado por fases.</li>
+            <li>Calificación final sobre <strong>10</strong>.</li>
+            <li>Al finalizar la Fase 6 se genera un <strong>código</strong> para enviar al docente.</li>
+            <li>El docente decodifica nombre + nota dentro del mismo HTML (modo docente).</li>
+          </ul>
+          <div class="hr"></div>
+          <div class="small muted">
+            Este material no reemplaza la jerarquía de residuos: <strong>reducir</strong>, <strong>reutilizar</strong> y <strong>reciclar</strong> siguen siendo prioritarios.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 style="margin:0 0 8px; font-size:15px">Lecturas recomendadas (opcionales)</h3>
+      <div class="footer-links">
+        <a href="https://www.unep.org/plastic-pollution" target="_blank" rel="noopener">PNUMA — contaminación por plásticos</a>
+        <a href="https://ellenmacarthurfoundation.org/topics/plastics/overview" target="_blank" rel="noopener">Economía circular — plásticos</a>
+        <a href="https://www.basel.int/" target="_blank" rel="noopener">Convenio de Basilea</a>
+      </div>
+    </div>
+  `;
+  updateTopPills();
+}
+
+function renderQuestions(phase){
+  return phase.questions.map((qu, idx) => {
+    const a = state.answers[qu.id] || { choice: null, attempts: 0, awarded: 0 };
+    const attempts = Number(a.attempts||0);
+    const awarded = a.awarded || 0;
+
+    const statusBadge = awarded === 1
+      ? `<span class="badge ok">+1</span>`
+      : awarded === 0.5
+        ? `<span class="badge ok">+0.5</span>`
+        : attempts > 0
+          ? `<span class="badge warn">revisable</span>`
+          : `<span class="badge">sin responder</span>`;
+
+    const optionsHtml = qu.options.map((opt, i) => {
+      const checked = (a.choice === i) ? "checked" : "";
+      return `
+        <label class="opt">
+          <input type="radio" name="${qu.id}" value="${i}" ${checked} />
+          <div>
+            <div style="font-weight:650">${escapeHtml(opt)}</div>
+          </div>
+        </label>
+      `;
+    }).join("");
+
+    const fb = buildFeedbackHtml(qu, a);
+
+    return `
+      <div class="qcard" id="card_${qu.id}">
+        <div class="qhead">
+          <div>
+            <h3>${idx+1}. ${escapeHtml(qu.prompt)}</h3>
+            <div class="qmeta">Intentos usados: <strong id="att_${qu.id}">${attempts}</strong> / 2</div>
+          </div>
+          <div class="inline">
+            ${statusBadge}
+          </div>
+        </div>
+
+        <div class="options">
+          ${optionsHtml}
+        </div>
+
+        <div class="qactions">
+          <button class="btn primary" data-action="check" data-qid="${qu.id}">Verificar</button>
+          <button class="btn" data-action="hint" data-qid="${qu.id}">Pista</button>
+          <span class="small muted">Consejo: elige la opción que mejor sostenga una interpretación ambiental.</span>
+        </div>
+
+        <div id="fb_${qu.id}">
+          ${fb}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function buildFeedbackHtml(qu, ans){
+  const attempts = Number(ans.attempts||0);
+  const awarded = ans.awarded || 0;
+
+  if(attempts === 0) return `<div class="feedback tip">Cuando respondas, recibirás retroalimentación inmediata para fortalecer tu análisis ambiental.</div>`;
+
+  // Intento 1 o 2: mostrar mensaje según estado.
+  if(awarded === 1){
+    return `<div class="feedback ok"><strong>¡Buen análisis!</strong> ${escapeHtml(qu.fbOk)}</div>`;
+  }
+  if(awarded === 0.5){
+    return `<div class="feedback ok"><strong>¡Buen ajuste conceptual!</strong> ${escapeHtml(qu.fbOk)} <span class="muted">(Obtuviste 0.5 puntos por consolidar en el 2do intento.)</span></div>`;
+  }
+  // Aún no acertó
+  if(attempts === 1){
+    return `<div class="feedback tip"><strong>Vas bien encaminado.</strong> Revisa la lectura y ajusta tu elección. ${escapeHtml(qu.fbTip)} <span class="muted">Tienes un intento más.</span></div>`;
+  }
+  // intentos=2 y no acertó
+  return `<div class="feedback tip"><strong>Gracias por el esfuerzo.</strong> Te recomiendo releer el apartado clave y conversar este punto en clase. ${escapeHtml(qu.fbTip)}</div>`;
+}
+
+function countPhaseAttempts(phaseId){
+  const ph = PHASES.find(p => p.id === phaseId);
+  let n = 0;
+  for(const qu of ph.questions){
+    const a = state.answers[qu.id];
+    if(a) n += Number(a.attempts||0);
+  }
+  return n;
+}
+
+function allQuestionsAttempted(phaseId){
+  const ph = PHASES.find(p => p.id === phaseId);
+  return ph.questions.every(qu => (state.answers[qu.id] && Number(state.answers[qu.id].attempts||0) > 0));
+}
+
+function renderPhaseFinishBox(phase){
+  const attempted = allQuestionsAttempted(phase.id);
+  const {earned, max} = computePhasePoints(phase.id);
+
+  const finishState = state.phaseFinished[phase.id] ? "finalizada" : "en progreso";
+  const finishBadge = state.phaseFinished[phase.id] ? "ok" : "warn";
+
+  let unlockHtml = "";
+  const isLast = phase.id === 6;
+
+  if(!state.phaseFinished[phase.id]){
+    unlockHtml += `
+      <div class="callout">
+        <strong>Finalizar fase:</strong> responde todas las preguntas (al menos una vez) y pulsa “Finalizar”.
+        <div class="small muted" style="margin-top:6px">
+          Tu puntaje actual de la fase es <strong>${earned}/${max}</strong>. Si deseas subirlo, ajusta respuestas antes de finalizar.
+        </div>
+      </div>
+      <div class="inline">
+        <button class="btn primary" id="btnFinishPhase" ${attempted ? "" : "disabled"} style="${attempted ? "" : "opacity:.6; cursor:not-allowed"}">
+          Finalizar Fase ${phase.id}
+        </button>
+        <span class="small muted">${attempted ? "Listo para finalizar." : "Aún faltan preguntas por responder."}</span>
+      </div>
+    `;
+  } else {
+    if(isLast){
+      unlockHtml += renderFinalEvaluationBox();
+    } else {
+      unlockHtml += renderUnlockNextBox(phase.id);
+    }
+  }
+
+  return `
+    <h3 style="margin:0 0 8px; font-size:15px">Cierre y avance</h3>
+    <div class="inline" style="margin-bottom:10px">
+      <span class="badge ${finishBadge}">Estado: ${finishState}</span>
+      <span class="badge">Puntaje fase: ${earned}/${max}</span>
+      <span class="badge">Preguntas respondidas: ${attempted ? "sí" : "no"}</span>
+    </div>
+    ${unlockHtml}
+  `;
+}
+
+function renderUnlockNextBox(phaseId){
+  const nextId = phaseId + 1;
+  const keyNeeded = TEACHER_KEYS[phaseId] || "(no definida)";
+
+  const already = !!state.phaseUnlocks[phaseId];
+  if(already){
+    return `
+      <div class="callout">
+        <strong>¡Siguiente fase desbloqueada!</strong> Puedes continuar a la Fase ${nextId}.
+      </div>
+      <div class="inline">
+        <button class="btn primary" onclick="goToPhase(${nextId})">Ir a Fase ${nextId}</button>
+        <button class="btn" onclick="goToPhase(${phaseId})">Revisar esta fase</button>
+      </div>
+      <div class="small muted" style="margin-top:8px">
+        Si deseas mejorar tu nota, puedes volver a revisar preguntas (el puntaje se recalcula).
+      </div>
+    `;
+  }
+
+  return `
+    <div class="callout">
+      <strong>Para avanzar a la Fase ${nextId}:</strong> solicita al docente la clave de desbloqueo.
+      <div class="small muted" style="margin-top:6px">
+        <span class="muted">Nota:</span> el docente puede cambiar estas claves en la variable <span class="mono">TEACHER_KEYS</span>.
+      </div>
+    </div>
+
+    <label class="small"><strong>Clave del docente (para desbloquear Fase ${nextId})</strong></label>
+    <input class="input" id="teacherKeyInput" placeholder="Ingresa la clave proporcionada por el docente" />
+
+    <div class="inline" style="margin-top:10px">
+      <button class="btn primary" id="btnUnlockNext">Desbloquear Fase ${nextId}</button>
+      <button class="btn" onclick="goToPhase(${phaseId})">Quedarme aquí</button>
+    </div>
+
+    <div class="note" style="margin-top:12px">
+      Sugerencia pedagógica: antes de pedir la clave, revisa tus respuestas y retroalimentación para fortalecer comprensión ambiental.
+    </div>
+  `;
+}
+
+function renderFinalEvaluationBox(){
+  const {earned, max} = computeEarnedPoints();
+  const grade10 = max ? round1((earned/max)*10) : 0;
+  const code = buildResultCode();
+
+  // Tabla por fases
+  const rows = PHASES.map(ph => {
+    const p = computePhasePoints(ph.id);
+    return `<tr><td>Fase ${ph.id}</td><td>${escapeHtml(ph.short)}</td><td>${p.earned}/${p.max}</td></tr>`;
+  }).join("");
+
+  return `
+    <div class="callout">
+      <strong>¡Felicidades! Finalizaste todas las fases.</strong>
+      <div class="small muted" style="margin-top:6px">
+        Puntaje total: <strong>${earned}/${max}</strong> • Nota final: <strong>${grade10}/10</strong>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 style="margin:0 0 8px; font-size:15px">Resumen por fases</h3>
+      <table class="table">
+        <tr><th>Fase</th><th>Enfoque</th><th>Puntaje</th></tr>
+        ${rows}
+      </table>
+    </div>
+
+    <div class="section">
+      <h3 style="margin:0 0 8px; font-size:15px">Código de resultados (enviar al docente)</h3>
+      <div class="note">
+        Copia el siguiente código y envíalo tal como aparece:
+      </div>
+      <div class="figure mono" id="resultCodeBox">${escapeHtml(code)}</div>
+
+      <div class="inline" style="margin-top:10px">
+        <button class="btn primary" id="btnCopyCode">Copiar código</button>
+        <button class="btn" id="btnRecalcCode">Recalcular (si mejoraste respuestas)</button>
+      </div>
+
+      <div class="small muted" style="margin-top:10px">
+        El docente puede decodificar este código en el mismo HTML (botón “Modo docente”).
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   EVENTOS DE PREGUNTAS Y CIERRE DE FASES
+   ========================================================= */
+
+function wireQuestionEvents(phase){
+  // Botones verificar/pista
+  const buttons = elPhaseContent.querySelectorAll("button[data-action]");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const qid = btn.getAttribute("data-qid");
+      const action = btn.getAttribute("data-action");
+      const qu = phase.questions.find(x => x.id === qid);
+      if(!qu) return;
+
+      if(action === "hint"){
+        toast(qu.fbTip);
+        return;
+      }
+
+      if(action === "check"){
+        checkQuestion(phase, qu);
+      }
+    });
+  });
+}
+
+function checkQuestion(phase, qu){
+  const radios = elPhaseContent.querySelectorAll(`input[name="${qu.id}"]`);
+  let choice = null;
+  radios.forEach(r => { if(r.checked) choice = Number(r.value); });
+
+  if(choice === null){
+    toast("Selecciona una opción antes de verificar.");
+    return;
+  }
+
+  let ans = state.answers[qu.id] || { choice: null, attempts: 0, awarded: 0 };
+  let attempts = Number(ans.attempts||0);
+
+  if(attempts >= 2){
+    toast("Ya utilizaste tus 2 intentos. Revisa retroalimentación y continúa.");
+    return;
+  }
+
+  attempts += 1;
+  ans.choice = choice;
+  ans.attempts = attempts;
+
+  const isRight = (choice === qu.correctIndex);
+
+  // Puntaje: si acierta en intento 1 => 1.0, en intento 2 => 0.5; si ya tenía puntaje, no cambiarlo.
+  if(isRight && !ans.awarded){
+    ans.awarded = (attempts === 1) ? 1 : 0.5;
+  } else if(!isRight && !ans.awarded){
+    ans.awarded = 0;
+  }
+
+  state.answers[qu.id] = ans;
+  saveState();
+
+  // actualizar UI: feedback, intentos, badges
+  const fbDiv = document.getElementById(`fb_${qu.id}`);
+  fbDiv.innerHTML = buildFeedbackHtml(qu, ans);
+
+  const attSpan = document.getElementById(`att_${qu.id}`);
+  if(attSpan) attSpan.textContent = attempts;
+
+  // Re-render tarjeta para badge (simple: ajustar badge en cabecera)
+  const card = document.getElementById(`card_${qu.id}`);
+  if(card){
+    const badgeContainer = card.querySelector(".qhead .inline");
+    if(badgeContainer){
+      let badge = "";
+      if(ans.awarded === 1) badge = `<span class="badge ok">+1</span>`;
+      else if(ans.awarded === 0.5) badge = `<span class="badge ok">+0.5</span>`;
+      else badge = `<span class="badge warn">revisable</span>`;
+      badgeContainer.innerHTML = badge;
+    }
+  }
+
+  // actualizar KPI / cierre fase
+  renderNav();
+  updateTopPills();
+
+  // Si todas respondidas, habilitar finalizar
+  const finishBtn = document.getElementById("btnFinishPhase");
+  if(finishBtn){
+    const okAttempted = allQuestionsAttempted(phase.id);
+    finishBtn.disabled = !okAttempted;
+    finishBtn.style.opacity = okAttempted ? "1" : ".6";
+    finishBtn.style.cursor = okAttempted ? "pointer" : "not-allowed";
+  }
+
+  // Mensaje motivador corto
+  if(isRight){
+    toast("¡Muy bien! Esa interpretación ambiental es sólida.");
+  } else {
+    toast("Buen intento. Revisa la lectura y ajusta tu enfoque ambiental.");
+  }
+}
+
+function wireFinishBoxEvents(phase){
+  const btnFinish = document.getElementById("btnFinishPhase");
+  if(btnFinish){
+    btnFinish.addEventListener("click", () => {
+      if(!allQuestionsAttempted(phase.id)){
+        toast("Aún faltan preguntas por responder.");
+        return;
+      }
+      state.phaseFinished[phase.id] = true;
+      saveState();
+      toast(`Fase ${phase.id} finalizada. Ahora puedes solicitar la clave para avanzar.`);
+      goToPhase(phase.id);
+    });
+  }
+
+  const btnUnlock = document.getElementById("btnUnlockNext");
+  if(btnUnlock){
+    btnUnlock.addEventListener("click", () => {
+      const input = document.getElementById("teacherKeyInput");
+      const typed = (input.value||"").trim();
+
+      const expected = (TEACHER_KEYS[phase.id]||"").trim();
+      if(!expected){
+        toast("No hay clave definida para esta fase en TEACHER_KEYS.");
+        return;
+      }
+      if(typed === expected){
+        state.phaseUnlocks[phase.id] = true;
+        saveState();
+        toast(`Fase ${phase.id+1} desbloqueada.`);
+        goToPhase(phase.id); // refrescar caja
+      } else {
+        toast("Clave no coincide. Pide al docente que la confirme.");
+      }
+    });
+  }
+
+  const btnCopy = document.getElementById("btnCopyCode");
+  if(btnCopy){
+    btnCopy.addEventListener("click", async () => {
+      const box = document.getElementById("resultCodeBox");
+      const text = box ? box.textContent : "";
+      try{
+        await navigator.clipboard.writeText(text);
+        toast("Código copiado al portapapeles.");
+      } catch(e){
+        toast("No se pudo copiar automáticamente. Selecciona el código y cópialo manualmente.");
+      }
+    });
+  }
+
+  const btnRecalc = document.getElementById("btnRecalcCode");
+  if(btnRecalc){
+    btnRecalc.addEventListener("click", () => {
+      goToPhase(6);
+      toast("Código recalculado según tus respuestas actuales.");
+    });
+  }
+}
+
+/* =========================================================
+   MODALES + BOTONES SUPERIORES
+   ========================================================= */
+
+const studentModal = document.getElementById("studentModal");
+const teacherModal = document.getElementById("teacherModal");
+
+document.getElementById("btnOpenStudent").addEventListener("click", openStudentModal);
+document.getElementById("btnCloseStudentModal").addEventListener("click", () => studentModal.classList.remove("show"));
+document.getElementById("btnTeacherMode").addEventListener("click", () => teacherModal.classList.add("show"));
+document.getElementById("btnCloseTeacher").addEventListener("click", () => teacherModal.classList.remove("show"));
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  const ok = confirm("¿Deseas reiniciar tu progreso en este dispositivo? Esta acción no se puede deshacer.");
+  if(ok) resetAll();
+});
+
+document.getElementById("btnStart").addEventListener("click", () => {
+  const name = (document.getElementById("studentNameInput").value||"").trim();
+  if(!name){ toast("Escribe tu nombre para iniciar."); return; }
+
+  const loaded = loadState(name);
+  if(loaded){
+    state = loaded;
+    state.studentName = name; // asegurar
+    toast("Progreso cargado.");
+  } else {
+    state.studentName = name;
+    state.unlockedPhase = 1;
+    state.currentPhase = 0;
+    state.answers = {};
+    state.phaseFinished = {};
+    state.phaseUnlocks = {};
+    toast("Nuevo progreso creado.");
+  }
+  saveState();
+  studentModal.classList.remove("show");
+  renderNav();
+  goToPhase(0);
+});
+
+document.getElementById("btnNew").addEventListener("click", () => {
+  const name = (document.getElementById("studentNameInput").value||"").trim();
+  if(!name){ toast("Escribe tu nombre para iniciar."); return; }
+
+  state.studentName = name;
+  state.unlockedPhase = 1;
+  state.currentPhase = 0;
+  state.answers = {};
+  state.phaseFinished = {};
+  state.phaseUnlocks = {};
+  saveState();
+  toast("Iniciado como nuevo.");
+  studentModal.classList.remove("show");
+  renderNav();
+  goToPhase(0);
+});
+
+/* Docente: decodificar */
+document.getElementById("btnDecode").addEventListener("click", () => {
+  const adminTyped = (document.getElementById("teacherAdminKeyInput").value||"").trim();
+  if(TEACHER_ADMIN_KEY && adminTyped !== TEACHER_ADMIN_KEY){
+    toast("Clave docente de acceso no coincide.");
+    return;
+  }
+
+  const code = document.getElementById("resultCodeInput").value;
+  const out = decodeResultCode(code);
+
+  const box = document.getElementById("decodedBox");
+  const status = document.getElementById("decodedStatus");
+  const table = document.getElementById("decodedTable");
+
+  if(!out.ok){
+    box.style.display = "none";
+    toast(out.msg);
+    return;
+  }
+
+  box.style.display = "block";
+  status.textContent = `${out.msg} ${out.valid ? "" : " (Aun así se muestran datos decodificados.)"}`;
+
+  const p = out.payload;
+  const rows = [];
+
+  rows.push(row("Estudiante", safe(p.student)));
+  rows.push(row("Fecha (ISO)", safe(p.dateISO)));
+  rows.push(row("Puntaje total", `${safe(p.earnedPoints)}/${safe(p.maxPoints)}`));
+  rows.push(row("Nota sobre 10", safe(p.gradeOver10)));
+
+  // resumen por fases
+  if(p.byPhase){
+    rows.push(`<tr><th colspan="2">Resumen por fases</th></tr>`);
+    for(const phId of Object.keys(p.byPhase)){
+      const pp = p.byPhase[phId];
+      rows.push(row(`Fase ${phId}`, `${safe(pp.earned)}/${safe(pp.max)}`));
+    }
+  }
+
+  table.innerHTML = rows.join("");
+});
+
+document.getElementById("btnClearDecode").addEventListener("click", () => {
+  document.getElementById("resultCodeInput").value = "";
+  document.getElementById("decodedBox").style.display = "none";
+});
+
+/* =========================================================
+   HELPERS: HTML seguro + TOAST
+   ========================================================= */
+
+function escapeHtml(str){
+  return String(str||"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function safe(x){
+  if(x === null || x === undefined) return "—";
+  return String(x);
+}
+function row(a,b){
+  return `<tr><td style="width:40%"><strong>${escapeHtml(a)}</strong></td><td>${escapeHtml(b)}</td></tr>`;
+}
+
+let toastTimer = null;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+function openStudentModal(){
+  document.getElementById("studentNameInput").value = state.studentName || "";
+  studentModal.classList.add("show");
+}
+
+/* =========================================================
+   SVGs OFFLINE (diagramas por fase)
+   ========================================================= */
+
+function svgBox(x,y,w,h,txt1,txt2){
+  return `
+    <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="rgba(15,26,51,.7)" stroke="rgba(255,255,255,.18)"/>
+    <text x="${x+w/2}" y="${y+26}" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="14" font-weight="800">${txt1}</text>
+    <text x="${x+w/2}" y="${y+46}" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">${txt2}</text>
+  `;
+}
+
+function svgArrow(x1,y1,x2,y2){
+  return `<path d="M${x1} ${y1} L${x2} ${y2}" stroke="rgba(122,166,255,.95)" stroke-width="4" fill="none" />`;
+}
+
+function svgPhase1(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Origen y caracterización ambiental del residuo plástico">
+      <defs>
+        <linearGradient id="g_p1" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+      ${svgBox(30,40,250,80,"Origen del residuo","hogar • comercio • industria")}
+      ${svgBox(325,40,250,80,"Flujo postconsumo","mezclas • contaminación")}
+      ${svgBox(620,40,250,80,"Caracterización","tipo • aditivos • riesgos")}
+
+      <path d="M280 80 H320" stroke="url(#g_p1)" stroke-width="4"/>
+      <path d="M575 80 H615" stroke="url(#g_p1)" stroke-width="4"/>
+
+      <rect x="30" y="165" width="840" height="120" rx="18" fill="rgba(102,227,196,.08)" stroke="rgba(102,227,196,.25)"/>
+      <text x="450" y="205" text-anchor="middle" fill="#dffff5" font-family="system-ui" font-size="14" font-weight="800">Riesgos ambientales si se gestiona mal</text>
+      <text x="450" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">dispersión • microplásticos • quema abierta • pérdida de recursos</text>
+
+      <circle cx="140" cy="255" r="14" fill="rgba(255,211,122,.16)" stroke="rgba(255,211,122,.45)"/>
+      <text x="140" y="260" text-anchor="middle" fill="#fff1d3" font-family="system-ui" font-size="12" font-weight="800">!</text>
+
+      <circle cx="450" cy="255" r="14" fill="rgba(255,211,122,.16)" stroke="rgba(255,211,122,.45)"/>
+      <text x="450" y="260" text-anchor="middle" fill="#fff1d3" font-family="system-ui" font-size="12" font-weight="800">!</text>
+
+      <circle cx="760" cy="255" r="14" fill="rgba(255,211,122,.16)" stroke="rgba(255,211,122,.45)"/>
+      <text x="760" y="260" text-anchor="middle" fill="#fff1d3" font-family="system-ui" font-size="12" font-weight="800">!</text>
+    </svg>
+  `;
+}
+
+function svgPhase2(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Pretratamiento y condiciones ambientales">
+      <defs>
+        <linearGradient id="g_p2" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+
+      ${svgBox(30,40,260,80,"Separación","retirar PVC • metales • orgánicos")}
+      ${svgBox(320,40,260,80,"Trituración","uniformidad • estabilidad")}
+      ${svgBox(610,40,260,80,"Limpieza / Secado","menos olores • menos vapores")}
+
+      <path d="M290 80 H315" stroke="url(#g_p2)" stroke-width="4"/>
+      <path d="M580 80 H605" stroke="url(#g_p2)" stroke-width="4"/>
+
+      <rect x="30" y="165" width="840" height="120" rx="18" fill="rgba(122,166,255,.08)" stroke="rgba(122,166,255,.25)"/>
+      <text x="450" y="205" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="14" font-weight="800">Seguridad ambiental y ocupacional</text>
+      <text x="450" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">polvo • ventilación • efluentes de lavado • almacenamiento seguro</text>
+
+      <path d="M110 245 H790" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-dasharray="8 8"/>
+    </svg>
+  `;
+}
+
+function svgPhase3(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Esquema general de pirólisis sin diseño">
+      <defs>
+        <linearGradient id="g_p3" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+
+      ${svgBox(30,40,250,80,"Alimentación","plástico preparado")}
+      ${svgBox(325,40,250,80,"Reactor (conceptual)","sin oxígeno • 350–550°C")}
+      ${svgBox(620,40,250,80,"Vapores y gases","captura y condensación")}
+
+      <path d="M280 80 H320" stroke="url(#g_p3)" stroke-width="4"/>
+      <path d="M575 80 H615" stroke="url(#g_p3)" stroke-width="4"/>
+
+      <rect x="90" y="165" width="720" height="120" rx="18" fill="rgba(102,227,196,.08)" stroke="rgba(102,227,196,.25)"/>
+      <text x="450" y="205" text-anchor="middle" fill="#dffff5" font-family="system-ui" font-size="14" font-weight="800">Condición clave: atmósfera inerte</text>
+      <text x="450" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">evita combustión • favorece transformación • reduce riesgos si hay sellado</text>
+
+      <path d="M450 95 V165" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+      <circle cx="450" cy="150" r="10" fill="rgba(122,166,255,.16)" stroke="rgba(122,166,255,.45)"/>
+      <text x="450" y="154" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="10" font-weight="800">N₂</text>
+    </svg>
+  `;
+}
+
+function svgPhase4(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Productos de pirólisis y gestión ambiental">
+      <defs>
+        <linearGradient id="g_p4" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+
+      ${svgBox(40,40,240,80,"Aceite (condensado)","uso energético o insumo")}
+      ${svgBox(330,40,240,80,"Gas","autoconsumo • control")}
+      ${svgBox(620,40,240,80,"Sólidos","caracterizar • trazabilidad")}
+
+      <rect x="40" y="165" width="840" height="120" rx="18" fill="rgba(255,211,122,.08)" stroke="rgba(255,211,122,.25)"/>
+      <text x="460" y="205" text-anchor="middle" fill="#fff1d3" font-family="system-ui" font-size="14" font-weight="800">Clave ambiental: uso responsable + control</text>
+      <text x="460" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">sustitución real • evitar derrames • controlar vapores y subproductos</text>
+
+      <path d="M290 80 H320" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-dasharray="8 8"/>
+      <path d="M570 80 H610" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-dasharray="8 8"/>
+    </svg>
+  `;
+}
+
+function svgPhase5(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Control ambiental, emisiones y seguridad">
+      <defs>
+        <linearGradient id="g_p5" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+
+      ${svgBox(40,40,260,80,"Sellado y captura","reducir fugas • olores")}
+      ${svgBox(330,40,260,80,"Tratamiento gas","filtros • lavadores • control")}
+      ${svgBox(620,40,240,80,"Gestión secundaria","filtros usados • lodos")}
+
+      <path d="M300 80 H325" stroke="url(#g_p5)" stroke-width="4"/>
+      <path d="M590 80 H615" stroke="url(#g_p5)" stroke-width="4"/>
+
+      <rect x="40" y="165" width="840" height="120" rx="18" fill="rgba(255,122,122,.08)" stroke="rgba(255,122,122,.25)"/>
+      <text x="460" y="205" text-anchor="middle" fill="#ffe1e1" font-family="system-ui" font-size="14" font-weight="800">Seguridad = desempeño ambiental</text>
+      <text x="460" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">alivio de presión • detección de fugas • protocolos ante emergencias</text>
+    </svg>
+  `;
+}
+
+function svgPhase6(){
+  return `
+    <svg viewBox="0 0 900 320" width="100%" height="auto" role="img" aria-label="Evaluación ambiental y sostenibilidad">
+      <defs>
+        <linearGradient id="g_p6" x1="0" x2="1">
+          <stop offset="0" stop-color="#66e3c4" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#7aa6ff" stop-opacity=".95"/>
+        </linearGradient>
+      </defs>
+
+      ${svgBox(40,40,260,80,"Alternativas","reducir • reutilizar • reciclar")}
+      ${svgBox(330,40,260,80,"Pirólisis","valorización con control")}
+      ${svgBox(620,40,240,80,"Comparación","ACV/LCA • indicadores")}
+
+      <rect x="40" y="165" width="840" height="120" rx="18" fill="rgba(122,166,255,.08)" stroke="rgba(122,166,255,.25)"/>
+      <text x="460" y="205" text-anchor="middle" fill="#eaf0ff" font-family="system-ui" font-size="14" font-weight="800">Economía circular y huella</text>
+      <text x="460" y="230" text-anchor="middle" fill="#b9c6ff" font-family="system-ui" font-size="12">sustitución • trazabilidad • control • trade-offs</text>
+
+      <path d="M300 80 H325" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-dasharray="8 8"/>
+      <path d="M590 80 H615" stroke="rgba(255,255,255,.14)" stroke-width="2" stroke-dasharray="8 8"/>
+      <circle cx="760" cy="95" r="10" fill="rgba(102,227,196,.16)" stroke="rgba(102,227,196,.45)"/>
+      <text x="760" y="99" text-anchor="middle" fill="#dffff5" font-family="system-ui" font-size="10" font-weight="800">ACV</text>
+    </svg>
+  `;
+}
+
+/* =========================================================
+   INICIALIZACIÓN
+   ========================================================= */
+
+(function init(){
+  // Si hay un nombre guardado en sesión previa, no lo asumimos automáticamente.
+  // Mostramos modal para iniciar.
+  renderNav();
+  goToPhase(0);
+  updateTopPills();
+  openStudentModal();
+})();
+</script>
+
+</body>
+</html>
