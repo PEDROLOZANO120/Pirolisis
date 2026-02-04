@@ -26,4 +26,4 @@ npm start
 
 - `server.js`: servidor Express.
 - `views/index.ejs`: plantilla principal con el recurso.
-- `public/`: archivos estáticos opcionales.
+- `public/`: archivos estáticos opcionales (incluye `index.html` de redirección).
